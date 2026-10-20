@@ -1,0 +1,35 @@
+---
+// Cycles system -> light -> dark. Initial value is applied by the inline script in Base.astro.
+---
+<button type="button" class="theme-toggle" data-theme-toggle aria-live="polite">
+  Theme: <span data-theme-label>system</span>
+</button>
+
+<style>
+  .theme-toggle {
+    font: inherit; font-size: 0.875rem; color: var(--text);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--space-1) var(--space-3); cursor: pointer;
+  }
+</style>
+
+<script>
+  const order = ["system", "light", "dark"] as const;
+  type Theme = (typeof order)[number];
+  const read = (): Theme => {
+    try { return (localStorage.getItem("theme") as Theme) || "system"; } catch { return "system"; }
+  };
+  const apply = (t: Theme) => {
+    if (t === "system") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.dataset.theme = t;
+    document.querySelectorAll("[data-theme-label]").forEach((el) => (el.textContent = t));
+  };
+  apply(read());
+  document.querySelectorAll("[data-theme-toggle]").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const next = order[(order.indexOf(read()) + 1) % order.length];
+      try { localStorage.setItem("theme", next); } catch {}
+      apply(next);
+    }),
+  );
+</script>

@@ -1,0 +1,64 @@
+---
+import Base from "../layouts/Base.astro";
+import CaseCard from "../components/CaseCard.astro";
+import LabCard from "../components/LabCard.astro";
+import Timeline from "../components/Timeline.astro";
+import AdSlot from "../components/AdSlot.astro";
+import { site, caseStudies, lab, posts } from "@portfolio/content";
+import { visible } from "../lib/visible";
+
+const work = visible(caseStudies).sort((a, b) => a.order - b.order);
+const latestLab = visible(lab).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
+const latestPosts = visible(posts).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+---
+<Base>
+  <section class="hero prose">
+    <h1>{site.name}</h1>
+    <p class="lede">{site.positioning}</p>
+    <p class="muted">{site.throughline}</p>
+  </section>
+
+  {work.length > 0 && (
+    <section aria-labelledby="work-h">
+      <h2 id="work-h">Case studies</h2>
+      <ul class="cards">{work.map((s) => <CaseCard study={s} />)}</ul>
+    </section>
+  )}
+
+  {latestLab.length > 0 && (
+    <section aria-labelledby="lab-h">
+      <h2 id="lab-h">Latest from the lab</h2>
+      <ul class="cards">{latestLab.map((e) => <LabCard entry={e} />)}</ul>
+      <p><a href="/lab">View all →</a></p>
+    </section>
+  )}
+
+  <section aria-labelledby="exp-h">
+    <h2 id="exp-h">Experience</h2>
+    <Timeline />
+  </section>
+
+  <AdSlot id="home-mid" />
+
+  {latestPosts.length > 0 && (
+    <section aria-labelledby="writing-h">
+      <h2 id="writing-h">Writing</h2>
+      <ul>{latestPosts.map((p) => <li><a href={`/writing/${p.slug}`}>{p.title}</a></li>)}</ul>
+    </section>
+  )}
+
+  <section aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <ul class="tags">
+      {site.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      <li><a href={site.resumePdf}>Resume (PDF)</a></li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-block: var(--space-5); }
+  .hero h1 { font-size: clamp(2rem, 6vw, 3rem); margin: 0 0 var(--space-3); }
+  .lede { font-size: 1.25rem; }
+  section { margin-block: var(--space-6); }
+</style>

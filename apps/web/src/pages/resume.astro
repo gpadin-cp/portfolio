@@ -1,0 +1,10 @@
+---
+import Base from "../layouts/Base.astro";
+import Timeline from "../components/Timeline.astro";
+import { site } from "@portfolio/content";
+---
+<Base title="Resume">
+  <h1>Resume</h1>
+  <p><a href={site.resumePdf}>Download PDF</a></p>
+  <Timeline />
+</Base>

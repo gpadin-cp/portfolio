@@ -1,0 +1,14 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "type": "module",
+  "workspaces": ["apps/*", "packages/*"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "npm run dev -w @portfolio/web",
+    "build": "npm run build -w @portfolio/web",
+    "check": "npm run check -w @portfolio/web && npm run typecheck -w @portfolio/content",
+    "preview": "npm run preview -w @portfolio/web",
+    "deploy": "npm run deploy -w @portfolio/web"
+  }
+}

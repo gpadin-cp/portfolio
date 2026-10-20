@@ -1,0 +1,10 @@
+---
+import type { CaseStudy } from "@portfolio/content";
+interface Props { study: CaseStudy }
+const { study } = Astro.props;
+---
+<li class="card">
+  <p class="muted">{study.company} · {study.role}{study.draft && " · draft"}</p>
+  <h3><a href={`/work/${study.slug}`}>{study.title}</a></h3>
+  <p>{study.outcome}</p>
+</li>

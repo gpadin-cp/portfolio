@@ -1,0 +1,12 @@
+---
+import Base from "../../layouts/Base.astro";
+import { posts } from "@portfolio/content";
+import { visible } from "../../lib/visible";
+const list = visible(posts).sort((a, b) => b.date.localeCompare(a.date));
+---
+<Base title="Writing">
+  <h1>Writing</h1>
+  {list.length === 0
+    ? <p class="muted">First posts are on the way.</p>
+    : <ul>{list.map((p) => <li><time datetime={p.date}>{p.date}</time> <a href={`/writing/${p.slug}`}>{p.title}</a></li>)}</ul>}
+</Base>

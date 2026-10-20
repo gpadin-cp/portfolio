@@ -1,0 +1,70 @@
+---
+import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import { site } from "@portfolio/content";
+
+interface Props { title?: string; description?: string }
+const { title, description = site.positioning } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : site.name;
+const nav = [
+  { href: "/work", label: "Work" },
+  { href: "/lab", label: "Lab" },
+  { href: "/writing", label: "Writing" },
+  { href: "/about", label: "About" },
+  { href: "/now", label: "Now" },
+  { href: "/resume", label: "Resume" },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <!-- Apply the saved theme before first paint to avoid a flash. -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="wrap site-header">
+      <a class="brand" href="/">{site.name}</a>
+      <nav aria-label="Primary">
+        <ul>
+          {nav.map((n) => (
+            <li><a href={n.href} aria-current={Astro.url.pathname.startsWith(n.href) ? "page" : undefined}>{n.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <ThemeToggle />
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="wrap site-footer muted">
+      <ul>
+        {site.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        <li><a href="https://github.com/gpadin-cp/portfolio">Source</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding-block: var(--space-4); }
+  .brand { font-weight: 700; color: var(--text); text-decoration: none; margin-right: auto; }
+  nav ul, .site-footer ul { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+  nav a { color: var(--text); text-decoration: none; }
+  nav a[aria-current="page"] { text-decoration: underline; }
+  .site-footer { padding-block: var(--space-6) var(--space-4); border-top: 1px solid var(--border); margin-top: var(--space-6); }
+</style>

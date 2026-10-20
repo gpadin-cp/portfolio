@@ -1,0 +1,20 @@
+---
+// Reserved ad placement. Renders nothing until ads are switched on, so pages can
+// place slots now without shipping any third-party code.
+interface Props { id: string; label?: string }
+const { id, label = "Advertisement" } = Astro.props;
+const enabled = import.meta.env.PUBLIC_ADS_ENABLED === "true";
+---
+{enabled && (
+  <aside class="ad-slot" data-ad-slot={id} aria-label={label}>
+    <span class="muted">{label}</span>
+  </aside>
+)}
+
+<style>
+  .ad-slot {
+    min-height: 250px; display: grid; place-items: center;
+    border: 1px dashed var(--border); border-radius: var(--radius);
+    margin-block: var(--space-5); font-size: 0.75rem;
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import { now } from "@portfolio/content";
+---
+<Base title="Now">
+  <article class="prose">
+    <h1>Now</h1>
+    <p class="muted">Last updated <time datetime={now.updated}>{now.updated}</time></p>
+    <h2>Focus</h2>
+    <ul>{now.focus.map((f) => <li>{f}</li>)}</ul>
+    <h2>Looking for</h2>
+    <ul>{now.lookingFor.map((f) => <li>{f}</li>)}</ul>
+  </article>
+</Base>

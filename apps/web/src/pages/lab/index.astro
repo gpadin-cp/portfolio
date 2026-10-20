@@ -1,0 +1,12 @@
+---
+import Base from "../../layouts/Base.astro";
+import LabCard from "../../components/LabCard.astro";
+import { lab } from "@portfolio/content";
+import { visible } from "../../lib/visible";
+const entries = visible(lab).sort((a, b) => b.date.localeCompare(a.date));
+---
+<Base title="Lab" description="Small interactive pieces: live demo, source, and the write-up behind each.">
+  <h1>Lab</h1>
+  <p class="prose muted">Small interactive pieces. Each links to a live demo, its source, and the write-up it came from.</p>
+  <ul class="cards">{entries.map((e) => <LabCard entry={e} />)}</ul>
+</Base>
