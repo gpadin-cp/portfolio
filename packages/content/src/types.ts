@@ -8,10 +8,14 @@ export type Draft = { draft?: boolean };
 export interface Site {
   name: string;
   domain: string;
+  /** One-sentence thesis used as the home headline. */
+  headline: string;
   positioning: string;
-  throughline: string;
+  email: string;
   links: { label: string; href: string }[];
   resumePdf: string;
+  /** About section paragraphs, plain text. */
+  about: string[];
 }
 
 export interface CaseStudySection {
@@ -28,19 +32,12 @@ export interface CaseStudy extends Draft {
   role: string;
   outcome: string;
   shows: string;
-  /** Lab entry embedded in the write-up, if any. */
-  applet?: string;
-  sections: CaseStudySection[];
-}
-
-export interface LabEntry extends Draft {
-  slug: string;
-  title: string;
-  date: string;
-  summary: string;
+  /** The result in its own units, e.g. "~4 mo → 6 wk". Only figures already on the resume. */
+  figure: string;
+  /** Interactive demo and its source, when one exists. */
   demo?: string;
   source?: string;
-  writeUp?: string;
+  sections: CaseStudySection[];
 }
 
 export interface Role {
@@ -59,10 +56,4 @@ export interface Post extends Draft {
   title: string;
   date: string;
   summary: string;
-}
-
-export interface Now {
-  updated: string;
-  focus: string[];
-  lookingFor: string[];
 }

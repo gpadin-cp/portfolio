@@ -1,28 +1,33 @@
 ---
 // Cycles system -> light -> dark. Initial value is applied by the inline script in Base.astro.
 ---
-<button type="button" class="theme-toggle" data-theme-toggle aria-live="polite">
-  Theme: <span data-theme-label>system</span>
+<button type="button" class="theme-toggle" data-theme-toggle>
+  Theme: <span data-theme-label>System</span>
 </button>
 
 <style>
   .theme-toggle {
-    font: inherit; font-size: 0.875rem; color: var(--text);
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: var(--space-1) var(--space-3); cursor: pointer;
+    font: inherit; font-size: var(--step--1); color: var(--ink-soft);
+    background: none; border: 1px solid var(--rule); border-radius: 999px;
+    padding: 0.2rem 0.8rem; cursor: pointer;
   }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--ink-soft); }
 </style>
 
 <script>
   const order = ["system", "light", "dark"] as const;
   type Theme = (typeof order)[number];
+  const names: Record<Theme, string> = { system: "System", light: "Light", dark: "Dark" };
   const read = (): Theme => {
-    try { return (localStorage.getItem("theme") as Theme) || "system"; } catch { return "system"; }
+    try {
+      const t = localStorage.getItem("theme");
+      return t === "light" || t === "dark" ? t : "system";
+    } catch { return "system"; }
   };
   const apply = (t: Theme) => {
     if (t === "system") document.documentElement.removeAttribute("data-theme");
     else document.documentElement.dataset.theme = t;
-    document.querySelectorAll("[data-theme-label]").forEach((el) => (el.textContent = t));
+    document.querySelectorAll("[data-theme-label]").forEach((el) => (el.textContent = names[t]));
   };
   apply(read());
   document.querySelectorAll("[data-theme-toggle]").forEach((btn) =>

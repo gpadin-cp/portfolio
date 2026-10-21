@@ -1,0 +1,47 @@
+---
+import type { CaseStudy } from "@portfolio/content";
+interface Props { studies: CaseStudy[] }
+const { studies } = Astro.props;
+---
+<ol class="work">
+  {studies.map((s) => (
+    <li class="item">
+      <p class="figure">{s.figure}</p>
+      <div class="text">
+        <h3><a href={`/work/${s.slug}`}>{s.title}</a></h3>
+        <p class="soft">{s.role === "TBD" ? s.company : `${s.company}, ${s.role}`}{s.draft && " (draft)"}</p>
+        <p>{s.outcome}</p>
+        {(s.demo || s.source) && (
+          <p class="links">
+            {s.demo && <a href={s.demo}>Try the demo</a>}
+            {s.source && <a href={s.source}>View source</a>}
+          </p>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .work { list-style: none; margin: 0; padding: 0; display: grid; }
+  .item { display: grid; gap: var(--space-2); padding-block: var(--space-4); border-bottom: 1px solid var(--rule); }
+  .item:first-child { padding-top: 0; }
+  .item:last-child { border-bottom: 0; padding-bottom: 0; }
+  .figure {
+    font-variation-settings: var(--mono);
+    font-size: var(--step-2);
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .text { display: grid; gap: var(--space-1); max-width: var(--measure); min-width: 0; }
+  h3 { font-size: var(--step-1); font-weight: 650; }
+  h3 a { color: var(--ink); text-decoration: none; }
+  h3 a:hover { color: var(--accent); text-decoration: underline; }
+  .links { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+  @media (min-width: 40rem) {
+    .item { grid-template-columns: minmax(10rem, 15rem) 1fr; gap: var(--space-4); }
+  }
+</style>

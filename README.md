@@ -54,6 +54,7 @@ Manual deploy: `npm run deploy` (needs `wrangler login`).
 
 | Variable | Default | Effect |
 |---|---|---|
+| `PUBLIC_SHOW_DRAFTS` | unset | Includes `draft: true` content in a build (for preview deploys). |
 | `PUBLIC_ADS_ENABLED` | unset | Renders reserved ad slots (`AdSlot.astro`). Off until consent handling ships. |
 
 ## License

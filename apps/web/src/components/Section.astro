@@ -1,0 +1,27 @@
+---
+// A page section whose heading hangs in the left track on wide screens.
+interface Props { id: string; title: string; compact?: boolean }
+const { id, title, compact = false } = Astro.props;
+---
+<section class:list={["section", { compact }]} id={id} aria-labelledby={`${id}-h`}>
+  <h2 id={`${id}-h`}>{title}</h2>
+  <div class="body"><slot /></div>
+</section>
+
+<style>
+  .section {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: var(--space-3);
+  }
+  .compact { padding-block: var(--space-4); }
+  h2 { font-size: var(--step-1); font-weight: 650; }
+  .body { min-width: 0; }
+
+  @media (min-width: 52rem) {
+    .section { grid-template-columns: var(--track) 1fr; gap: var(--space-4); }
+    h2 { position: sticky; top: var(--space-4); align-self: start; }
+  }
+</style>

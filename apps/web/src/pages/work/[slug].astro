@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import Section from "../../components/Section.astro";
 import AdSlot from "../../components/AdSlot.astro";
 import { caseStudies, type CaseStudy } from "@portfolio/content";
 import { visible } from "../../lib/visible";
@@ -8,17 +9,27 @@ export function getStaticPaths() {
   return visible(caseStudies).map((study) => ({ params: { slug: study.slug }, props: { study } }));
 }
 const { study } = Astro.props as { study: CaseStudy };
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 ---
-<Base title={study.title} description={study.outcome}>
-  <article class="prose">
-    <p class="muted">{study.company} · {study.role}</p>
+<Base title={study.title} description={study.outcome} type="article">
+  <header class="intro">
+    <p class="soft">{study.role === "TBD" ? study.company : `${study.company}, ${study.role}`}</p>
     <h1>{study.title}</h1>
-    {study.sections.map((s) => (
-      <section>
-        <h2>{s.heading}</h2>
-        {s.body.map((p) => <p>{p}</p>)}
-      </section>
-    ))}
-  </article>
+    <p class="figure">{study.figure}</p>
+  </header>
+  {study.sections.map((s) => (
+    <Section id={slugify(s.heading)} title={s.heading} compact>
+      <div class="prose">{s.body.map((p) => <p>{p}</p>)}</div>
+    </Section>
+  ))}
   <AdSlot id="case-study-end" />
+  <p class="back"><a href="/#work">Back to all work</a></p>
 </Base>
+
+<style>
+  .intro { display: grid; gap: var(--space-2); padding-block: var(--space-5); }
+  h1 { font-size: clamp(2rem, 1.2rem + 3.5vw, 3.75rem); font-weight: 760; letter-spacing: -0.02em; max-width: 20ch; }
+  .figure { font-variation-settings: var(--mono); font-size: var(--step-2); color: var(--accent); }
+  .prose { display: grid; gap: var(--space-2); max-width: var(--measure); }
+  .back { padding-block: var(--space-4); }
+</style>

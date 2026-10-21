@@ -1,0 +1,34 @@
+---
+import type { Post } from "@portfolio/content";
+interface Props { posts: Post[] }
+const { posts } = Astro.props;
+const fmt = (d: string) =>
+  new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+---
+{posts.length === 0 ? (
+  <p class="soft empty">No posts yet. The first one is in progress.</p>
+) : (
+  <ul class="posts">
+    {posts.map((p) => (
+      <li>
+        <time datetime={p.date}>{fmt(p.date)}</time>
+        <div>
+          <a href={`/writing/${p.slug}`}>{p.title}</a>
+          <p class="soft">{p.summary}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .posts { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); max-width: 48rem; }
+  li { display: grid; gap: var(--space-1); }
+  time { font-variation-settings: var(--mono); font-size: var(--step--1); color: var(--ink-soft); font-variant-numeric: tabular-nums; padding-top: 0.2em; }
+  li a { font-weight: 600; }
+  .empty { max-width: var(--measure); }
+
+  @media (min-width: 40rem) {
+    li { grid-template-columns: 8rem 1fr; gap: var(--space-3); }
+  }
+</style>
