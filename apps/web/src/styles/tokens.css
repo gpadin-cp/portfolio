@@ -34,6 +34,12 @@
   --space-4: 2rem;
   --space-5: 3.5rem;
   --space-6: 6rem;
+  /* Height of the sticky site header, for scroll offsets. */
+  --header-h: 6.5rem;
+}
+
+@media (min-width: 44rem) {
+  :root { --header-h: 4.75rem; }
 }
 
 @media (prefers-color-scheme: dark) {

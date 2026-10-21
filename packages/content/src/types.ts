@@ -8,6 +8,8 @@ export type Draft = { draft?: boolean };
 export interface Site {
   name: string;
   domain: string;
+  /** Short role line shown beside the name in the header. */
+  role: string;
   /** One-sentence thesis used as the home headline. */
   headline: string;
   positioning: string;

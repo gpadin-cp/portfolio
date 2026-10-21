@@ -4,6 +4,7 @@ import type { Site } from "./types";
 export const site: Site = {
   name: "Greg Padin",
   domain: "gregpadin.com",
+  role: "Full-stack engineer",
   headline: "I build the reusable system instead of the one-off feature.",
   positioning:
     "Staff-track full-stack engineer with 13+ years of experience. Back to hands-on work on purpose after four years as an engineering manager.",

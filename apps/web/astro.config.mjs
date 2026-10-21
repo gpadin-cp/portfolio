@@ -8,4 +8,12 @@ export default defineConfig({
   trailingSlash: "never",
   build: { format: "file" },
   integrations: [sitemap()],
+  // Listen on all interfaces so the dev server is reachable from other machines on the LAN.
+  server: { host: "0.0.0.0" },
+  vite: {
+    server: {
+      // Extra hostnames the dev server answers to, e.g. DEV_ALLOWED_HOSTS=box.lan,.example.internal
+      allowedHosts: process.env.DEV_ALLOWED_HOSTS?.split(",").filter(Boolean) ?? [],
+    },
+  },
 });
