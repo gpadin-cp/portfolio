@@ -1,15 +1,20 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "gregpadin-com",
+  "main": "./worker/index.ts",
   "compatibility_date": "2026-10-01",
   "workers_dev": false,
   "preview_urls": true,
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    // The Worker must see every request to redirect www; assets are otherwise served first.
+    "run_worker_first": true,
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash"
   },
   "routes": [
-    { "pattern": "gregpadin.com", "custom_domain": true }
+    { "pattern": "gregpadin.com", "custom_domain": true },
+    { "pattern": "www.gregpadin.com", "custom_domain": true }
   ]
 }

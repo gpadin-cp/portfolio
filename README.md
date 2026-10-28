@@ -60,6 +60,9 @@ check run. Previews are production builds, so drafts stay hidden; preview URLs
 are public to anyone who has the link. `workers_dev` is off so the production
 site is served only at gregpadin.com.
 
+`www.gregpadin.com` is a second custom domain; a small Worker in front of the
+assets (`apps/web/worker/index.ts`) 301-redirects it to the apex.
+
 Manual deploy: `npm run deploy` (needs `wrangler login`).
 
 ## Feature flags
