@@ -44,9 +44,21 @@ The site is served as static assets on Cloudflare Workers
 (`apps/web/wrangler.jsonc`). Production deploys run from Cloudflare's Git
 integration on pushes to `main`, using:
 
-- Root directory: `apps/web`
+- Root directory: `/` (the workspace root, so `npm ci` sees the lockfile)
 - Build command: `npm run build`
-- Deploy command: `npx wrangler deploy`
+- Deploy command: `npx wrangler deploy --cwd apps/web`
+- Non-production branch builds: on, with deploy command
+  `npx wrangler versions upload --cwd apps/web`
+
+Wrangler must be pointed at `apps/web`; run from the root it falls back to
+auto-detection and refuses to run in a workspace.
+
+Every PR branch is built and uploaded as a new Worker version without being
+promoted. Cloudflare comments the preview URL
+(`<version>-gregpadin-com.<subdomain>.workers.dev`) on the PR and reports a
+check run. Previews are production builds, so drafts stay hidden; preview URLs
+are public to anyone who has the link. `workers_dev` is off so the production
+site is served only at gregpadin.com.
 
 Manual deploy: `npm run deploy` (needs `wrangler login`).
 
